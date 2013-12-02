@@ -8,6 +8,8 @@
 
 #import "BOWMyScene.h"
 
+#import "BOWSpaceshipNode.h"
+
 @implementation BOWMyScene
 
 -(id)initWithSize:(CGSize)size {    
@@ -34,13 +36,16 @@
     for (UITouch *touch in touches) {
         CGPoint location = [touch locationInNode:self];
         
-        SKSpriteNode *sprite = [SKSpriteNode spriteNodeWithImageNamed:@"Spaceship"];
+        SKSpriteNode *sprite = [BOWSpaceshipNode new];
         
         sprite.position = location;
         
         SKAction *action = [SKAction rotateByAngle:M_PI duration:1];
+        action = [SKAction repeatActionForever:action];
         
-        [sprite runAction:[SKAction repeatActionForever:action]];
+        action = [SKAction group:@[action, [SKAction scaleTo:0.25 duration:5]]];
+        
+        [sprite runAction:action];
         
         [self addChild:sprite];
     }
